@@ -10,14 +10,12 @@ interface LocationDetailsProps {
   };
 }
 
-export default function LocationDetails({ location, userLocation }: LocationDetailsProps) {
-  const [isAppleDevice, setIsAppleDevice] = useState(false);
+export default function LocationDetails({ location }: LocationDetailsProps) {
   const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'other'>('other');
   
   useEffect(() => {
     const type = detectMobileDevice();
     setDeviceType(type);
-    setIsAppleDevice(type === 'ios');
   }, []);
 
   const handleGetDirections = () => {

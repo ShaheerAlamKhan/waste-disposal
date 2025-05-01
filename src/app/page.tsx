@@ -137,7 +137,7 @@ export default function Home() {
           <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md mx-auto my-8">
             <h3 className="text-xl font-bold text-gray-800 mb-3">No Locations Found</h3>
             <p className="text-gray-600 mb-6">
-              We couldn't find any e-waste disposal locations near you. Try again later or expand your search area.
+              We couldn&apos;t find any e-waste disposal locations near you. Try again later or expand your search area.
             </p>
             <button 
               onClick={handleReset} 

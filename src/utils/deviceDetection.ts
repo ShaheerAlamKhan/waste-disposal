@@ -3,15 +3,21 @@ export function detectMobileDevice(): 'ios' | 'android' | 'other' {
     return 'other'; // Default for server-side rendering
   }
   
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+  interface WindowWithOpera extends Window {
+    opera?: unknown;
+    MSStream?: unknown;
+  }
+  
+  const win = window as WindowWithOpera;
+  const userAgent = navigator.userAgent || navigator.vendor || win.opera || '';
   
   // iOS detection
-  if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+  if (/iPad|iPhone|iPod/.test(userAgent as string) && !win.MSStream) {
     return 'ios';
   }
   
   // Android detection
-  if (/android/i.test(userAgent)) {
+  if (/android/i.test(userAgent as string)) {
     return 'android';
   }
   

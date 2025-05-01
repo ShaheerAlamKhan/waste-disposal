@@ -15,7 +15,7 @@ export default function LocationList({ locations, userLocation }: LocationListPr
       <div className="text-center p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-xl font-bold text-gray-800 mb-2">No Locations Found</h2>
         <p className="text-gray-600">
-          We couldn't find any e-waste disposal locations near you. Try expanding your search area.
+          We couldn&apos;t find any e-waste disposal locations near you. Try expanding your search area.
         </p>
       </div>
     );
