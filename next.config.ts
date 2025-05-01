@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Prevent crawler indexing
+  reactStrictMode: true,
+  trailingSlash: true,
 };
 
 export default nextConfig;

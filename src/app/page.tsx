@@ -4,9 +4,11 @@ import { useState } from 'react';
 import FindNearMeButton from '../components/FindNearMeButton';
 import LocationList from '../components/LocationList';
 import { EWasteLocation } from '../data/locations';
+import { locations } from '../data/locations';
+import { getNearbyLocations } from '../utils/locationUtils';
 
 export default function Home() {
-  const [locations, setLocations] = useState<EWasteLocation[]>([]);
+  const [filteredLocations, setFilteredLocations] = useState<(EWasteLocation & { distance: number })[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -36,39 +38,9 @@ export default function Home() {
       const { latitude, longitude } = position.coords;
       setUserLocation({ latitude, longitude });
       
-      // Use dynamic import to get locations in production (for static export)
-      let nearbyLocations;
-      if (process.env.NODE_ENV === 'production') {
-        // In production, import the locations directly
-        const { locations } = await import('../data/locations');
-        const { calculateDistance } = await import('../utils/distance');
-        
-        // Filter and sort locations manually instead of using the API
-        nearbyLocations = locations
-          .map(location => {
-            const distance = calculateDistance(
-              latitude,
-              longitude,
-              location.latitude,
-              location.longitude
-            );
-            return { ...location, distance };
-          })
-          .filter(location => location.distance <= 50)
-          .sort((a, b) => a.distance - b.distance);
-      } else {
-        // In development, use the API
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-        const response = await fetch(`${basePath}/api/locations?lat=${latitude}&lng=${longitude}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch locations');
-        }
-        
-        nearbyLocations = await response.json();
-      }
-      
-      setLocations(nearbyLocations);
+      // Filter locations by distance directly in the client
+      const nearbyLocations = getNearbyLocations(locations, latitude, longitude);
+      setFilteredLocations(nearbyLocations);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
@@ -78,7 +50,7 @@ export default function Home() {
 
   const handleReset = () => {
     setUserLocation(null);
-    setLocations([]);
+    setFilteredLocations([]);
     setError(null);
   };
 
@@ -129,11 +101,11 @@ export default function Home() {
           </div>
         )}
 
-        {userLocation && locations.length > 0 && (
-          <LocationList locations={locations} userLocation={userLocation} />
+        {userLocation && filteredLocations.length > 0 && (
+          <LocationList locations={filteredLocations} userLocation={userLocation} />
         )}
 
-        {userLocation && locations.length === 0 && !loading && !error && (
+        {userLocation && filteredLocations.length === 0 && !loading && !error && (
           <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md mx-auto my-8">
             <h3 className="text-xl font-bold text-gray-800 mb-3">No Locations Found</h3>
             <p className="text-gray-600 mb-6">
