@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:gh-pages": "next build --no-lint",
+    "build:gh-pages": "rm -rf docs && next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix"
