@@ -13,75 +13,68 @@ export interface EWasteLocation {
   hours?: string;
 }
 
-// Sample data - in a real app, this would come from a database or API
+// Real e-waste recycling centers near UCSD campus
 export const locations: EWasteLocation[] = [
   {
     id: "1",
-    name: "EcoTech Recyclers",
-    address: "123 Green St",
+    name: "Dream E-Waste",
+    address: "4009 Hicock St Suite D",
     city: "San Diego",
     state: "CA",
-    zip: "92122",
-    latitude: 32.715736,
-    longitude: -117.161087,
-    phone: "(925) 123-4567",
-    website: "https://example.com/ecotech",
-    acceptedWaste: ["Computers", "Monitors", "TVs", "Phones", "Batteries"],
-    hours: "Mon-Fri: 9am-5pm, Sat: 10am-2pm"
+    zip: "92110",
+    latitude: 32.7347,
+    longitude: -117.2131,
+    phone: "(619) 889-1305",
+    acceptedWaste: ["Computers", "Laptops", "Smartphones", "Tablets", "Printers", "Monitors", "TVs", "Servers", "Routers", "Telecommunications Equipment"],
+    hours: "Contact for hours"
   },
   {
     id: "2",
-    name: "Electronics Disposal Center",
-    address: "456 Recycle Ave",
+    name: "SES Recycling (Secure E-Waste Solutions)",
+    address: "8810 Rehco Rd C",
     city: "San Diego",
     state: "CA",
-    zip: "92101",
-    latitude: 32.7157,
-    longitude: -117.1611,
-    phone: "(619) 987-6543",
-    website: "https://example.com/edcenter",
-    acceptedWaste: ["Computers", "Printers", "Microwaves", "Small Appliances"],
-    hours: "Mon-Sat: 8am-6pm"
+    zip: "92121",
+    latitude: 32.9023,
+    longitude: -117.2108,
+    acceptedWaste: ["All Electronics", "Batteries", "IT Equipment"],
+    hours: "Contact through website"
   },
   {
     id: "3",
-    name: "Green Planet E-Waste",
-    address: "789 Earth Blvd",
-    city: "La Jolla",
+    name: "Miramar Recycling Center",
+    address: "5165 Convoy St",
+    city: "San Diego",
     state: "CA",
-    zip: "92037",
-    latitude: 32.8328,
-    longitude: -117.2713,
-    phone: "(858) 456-7890",
-    website: "https://example.com/greenplanet",
-    acceptedWaste: ["Computers", "Laptops", "Tablets", "Smartphones", "Wearables", "Batteries"],
-    hours: "Tue-Sat: 10am-7pm"
+    zip: "92111",
+    latitude: 32.8128,
+    longitude: -117.1565,
+    phone: "(858) 268-8971",
+    acceptedWaste: ["Computer Electronics", "TVs", "Monitors", "Small Appliances"],
+    hours: "Mon-Sat: 7am-4pm (Closed Sundays)"
   },
   {
     id: "4",
-    name: "City Recycling Facility",
-    address: "101 Municipal Way",
-    city: "Chula Vista",
+    name: "Solana Center for Environmental Innovation",
+    address: "137 N. El Camino Real",
+    city: "Encinitas",
     state: "CA",
-    zip: "91910",
-    latitude: 32.6401,
-    longitude: -117.0842,
-    phone: "(619) 234-5678",
-    acceptedWaste: ["TVs", "Computers", "Printers", "Phones", "Household Batteries"],
-    hours: "Mon-Fri: 7am-3pm"
+    zip: "92024",
+    latitude: 33.0370,
+    longitude: -117.2920,
+    acceptedWaste: ["Electronics", "E-Waste"],
+    hours: "Thu: 12pm-5pm, Sat: 9am-12pm (Call ahead - service may be discontinued)"
   },
   {
     id: "5",
-    name: "TechCycle Solutions",
-    address: "222 Innovation Pkwy",
-    city: "Escondido",
+    name: "UCSD Geisel Library E-Waste Drop-off",
+    address: "9701 Hopkins Dr, 2nd Floor",
+    city: "La Jolla",
     state: "CA",
-    zip: "92025",
-    latitude: 33.1192,
-    longitude: -117.0864,
-    phone: "(760) 345-6789",
-    website: "https://example.com/techcycle",
-    acceptedWaste: ["Enterprise IT Equipment", "Servers", "Networking Equipment", "Office Electronics"],
-    hours: "By appointment only"
+    zip: "92093",
+    latitude: 32.8801,
+    longitude: -117.2340,
+    acceptedWaste: ["iClickers", "Calculators", "Small Appliances"],
+    hours: "Mon-Thu: 7:30am-10pm, Fri: 7:30am-6pm, Sat: 10am-6pm, Sun: 10am-10pm"
   }
 ]; 

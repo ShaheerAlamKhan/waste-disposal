@@ -12,25 +12,49 @@ interface LocationListProps {
 export default function LocationList({ locations, userLocation }: LocationListProps) {
   if (locations.length === 0) {
     return (
-      <div className="text-center p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">No Locations Found</h2>
+      <div className="text-center p-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50">
+        <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">No Facilities Found</h2>
         <p className="text-gray-600">
-          We couldn&apos;t find any e-waste disposal locations near you. Try expanding your search area.
+          We couldn&apos;t find any certified e-waste disposal facilities in your search area.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Nearby E-Waste Disposal Locations</h2>
-      {locations.map((location) => (
-        <LocationCard 
-          key={location.id} 
-          location={location} 
-          userLocation={userLocation} 
-        />
-      ))}
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-slate-200/50">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="w-3 h-3 bg-emerald-600 rounded-full"></div>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Certified E-Waste Facilities
+          </h2>
+          <div className="w-3 h-3 bg-emerald-600 rounded-full"></div>
+        </div>
+        <p className="text-lg text-gray-600">
+          {locations.length} verified location{locations.length !== 1 ? 's' : ''} found in your area
+        </p>
+      </div>
+      
+      <div className="space-y-6">
+        {locations.map((location, index) => (
+          <div 
+            key={location.id}
+            className="animate-fade-in"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <LocationCard 
+              location={location} 
+              userLocation={userLocation} 
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 } 
