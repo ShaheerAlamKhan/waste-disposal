@@ -21,19 +21,21 @@ export default function LocationDetails({ location }: LocationDetailsProps) {
   }, []);
 
   const handleGetDirections = () => {
-    const { latitude, longitude } = location;
-    const fullAddress = encodeURIComponent(`${location.address}, ${location.city}, ${location.state} ${location.zip}`);
+    // Use business name + full address for much more reliable navigation
+    const businessQuery = encodeURIComponent(`${location.name}, ${location.address}, ${location.city}, ${location.state} ${location.zip}`);
     
     // Use different map URLs based on device type
     let mapsUrl = '';
     
     if (deviceType === 'ios') {
-      mapsUrl = `https://maps.apple.com/?daddr=${latitude},${longitude}&dirflg=d`;
+      // For iOS, use Apple Maps with business name + address
+      mapsUrl = `https://maps.apple.com/?q=${businessQuery}&dirflg=d`;
     } else if (deviceType === 'android') {
-      mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${fullAddress}&travelmode=driving`;
+      // For Android, use Google Maps with business name + address
+      mapsUrl = `https://www.google.com/maps/search/?api=1&query=${businessQuery}`;
     } else {
-      // For desktop/other, offer both options
-      mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${fullAddress}&travelmode=driving`;
+      // For desktop/other, use Google Maps
+      mapsUrl = `https://www.google.com/maps/search/?api=1&query=${businessQuery}`;
     }
     
     window.open(mapsUrl, '_blank');
@@ -45,12 +47,32 @@ export default function LocationDetails({ location }: LocationDetailsProps) {
     }
   };
 
+  const copyAddress = async () => {
+    const fullAddress = `${location.name}\n${location.address}\n${location.city}, ${location.state} ${location.zip}`;
+    
+    try {
+      await navigator.clipboard.writeText(fullAddress);
+      // You might want to show a toast notification here
+      alert('Address copied to clipboard!');
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = fullAddress;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('Address copied to clipboard!');
+    }
+  };
+
   const shareLocation = () => {
     if (typeof navigator !== 'undefined' && 'share' in navigator && deviceType !== 'other') {
+      const businessQuery = encodeURIComponent(`${location.name}, ${location.address}, ${location.city}, ${location.state} ${location.zip}`);
       const shareData = {
         title: `E-Waste Disposal: ${location.name}`,
         text: `Check out this e-waste disposal location: ${location.name} - ${location.address}, ${location.city}, ${location.state} ${location.zip}`,
-        url: `https://maps.google.com/?q=${location.latitude},${location.longitude}`,
+        url: `https://maps.google.com/search/?q=${businessQuery}`,
       };
 
       navigator.share(shareData)
@@ -99,7 +121,7 @@ export default function LocationDetails({ location }: LocationDetailsProps) {
           </button>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           <button
             onClick={handleGetDirections}
             className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
@@ -108,6 +130,16 @@ export default function LocationDetails({ location }: LocationDetailsProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
             Get Directions
+          </button>
+          
+          <button
+            onClick={copyAddress}
+            className="bg-slate-600 hover:bg-slate-700 active:bg-slate-800 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            Copy Address
           </button>
           
           {location.phone && (
