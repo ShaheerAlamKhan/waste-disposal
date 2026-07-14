@@ -13,11 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "E-Waste Disposal Locator",
-  description: "Find the nearest e-waste disposal locations",
-  applicationName: "E-Waste Locator",
-  authors: [{ name: "E-Waste Locator Team" }],
-  keywords: ["e-waste", "recycling", "electronic waste", "disposal", "environment"],
+  title: "ReCircuit — Recycle your electronics the right way in San Diego",
+  description:
+    "ReCircuit helps San Diego residents recycle electronics the right way. Search certified e-waste drop-off sites by device or city, filter by what they accept, and sort by distance from where you are.",
+  applicationName: "ReCircuit",
+  authors: [{ name: "Shaheer Alam Khan" }],
+  keywords: [
+    "ReCircuit",
+    "e-waste",
+    "recycling",
+    "electronic waste",
+    "San Diego",
+    "drop-off",
+    "environment",
+  ],
 };
 
 export const viewport: Viewport = {
@@ -25,7 +34,10 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#10b981", // Green-600 from Tailwind
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#059669" },
+    { media: "(prefers-color-scheme: dark)", color: "#022c22" },
+  ],
   viewportFit: "cover",
 };
 

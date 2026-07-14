@@ -1,30 +1,50 @@
-interface FindNearMeButtonProps {
+interface UseMyLocationButtonProps {
   onClick: () => void;
   loading?: boolean;
 }
 
-export default function FindNearMeButton({ onClick, loading = false }: FindNearMeButtonProps) {
+export default function UseMyLocationButton({
+  onClick,
+  loading = false,
+}: UseMyLocationButtonProps) {
   return (
     <button
       onClick={onClick}
       disabled={loading}
-      aria-label="Find nearby e-waste disposal locations"
-      className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold py-6 px-12 rounded-2xl text-xl shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation border border-emerald-500"
+      className="group inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-brand to-accent px-6 py-3 font-semibold text-white shadow-lg shadow-emerald-900/20 ring-1 ring-white/10 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-900/25 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
     >
       {loading ? (
-        <div className="flex items-center justify-center gap-4">
-          <div className="animate-spin h-6 w-6 border-t-2 border-b-2 border-white rounded-full"></div>
-          <span className="tracking-wide">Locating Facilities...</span>
-        </div>
+        <>
+          <span
+            className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white"
+            aria-hidden="true"
+          />
+          <span>Locating…</span>
+        </>
       ) : (
-        <div className="flex items-center justify-center gap-3">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        <>
+          <svg
+            className="h-5 w-5 transition-transform duration-300 group-hover:scale-110"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
           </svg>
-          <span className="tracking-wide">Find Disposal Centers</span>
-        </div>
+          <span className="whitespace-nowrap">Use my location</span>
+        </>
       )}
     </button>
   );
-} 
+}

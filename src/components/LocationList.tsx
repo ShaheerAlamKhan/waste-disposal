@@ -2,59 +2,78 @@ import { EWasteLocation } from '../data/locations';
 import LocationCard from './LocationCard';
 
 interface LocationListProps {
-  locations: EWasteLocation[];
-  userLocation: {
-    latitude: number;
-    longitude: number;
-  };
+  locations: (EWasteLocation & { distance?: number })[];
+  query: string;
+  onClearSearch: () => void;
 }
 
-export default function LocationList({ locations, userLocation }: LocationListProps) {
+export default function LocationList({
+  locations,
+  query,
+  onClearSearch,
+}: LocationListProps) {
   if (locations.length === 0) {
     return (
-      <div className="text-center p-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50">
-        <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      <div className="rounded-2xl border border-dashed border-border-token bg-surface px-6 py-14 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-muted">
+          <svg
+            className="h-7 w-7 text-[color:var(--muted-foreground)]"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">No Facilities Found</h2>
-        <p className="text-gray-600">
-          We couldn&apos;t find any certified e-waste disposal facilities in your search area.
+        <h2 className="mt-4 text-lg font-semibold text-foreground">
+          No matches{query ? ` for “${query}”` : ''}
+        </h2>
+        <p className="mx-auto mt-2 max-w-sm text-sm text-[color:var(--muted-foreground)]">
+          Try a broader term like “TV”, “battery”, or a city name — or clear
+          the search to see every drop-off site.
         </p>
+        <button
+          onClick={onClearSearch}
+          className="mt-6 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 dark:text-emerald-950"
+        >
+          Clear search
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
-      <div className="text-center bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-slate-200/50">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-3 h-3 bg-emerald-600 rounded-full"></div>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Certified E-Waste Facilities
-          </h2>
-          <div className="w-3 h-3 bg-emerald-600 rounded-full"></div>
-        </div>
-        <p className="text-lg text-gray-600">
-          {locations.length} verified location{locations.length !== 1 ? 's' : ''} found in your area
+    <div>
+      <div className="mb-5 flex items-baseline justify-between gap-4">
+        <h2 className="text-xl font-bold tracking-tight text-foreground">
+          Drop-off locations
+        </h2>
+        <p
+          className="text-sm text-[color:var(--muted-foreground)]"
+          aria-live="polite"
+        >
+          {locations.length} site{locations.length !== 1 ? 's' : ''}
+          {query ? ` matching “${query}”` : ''}
         </p>
       </div>
-      
-      <div className="space-y-6">
+
+      <ul className="space-y-4">
         {locations.map((location, index) => (
-          <div 
+          <li
             key={location.id}
             className="animate-fade-in"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            style={{ animationDelay: `${Math.min(index, 6) * 0.06}s` }}
           >
-            <LocationCard 
-              location={location} 
-              userLocation={userLocation} 
-            />
-          </div>
+            <LocationCard location={location} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
-} 
+}
